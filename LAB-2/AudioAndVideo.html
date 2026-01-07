@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Audio and Video</title>
+<style>
+body{
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+text-align:center;
+font-family:Arial
+}
+</style>
+</head>
+<body>
+
+<div>
+<h3>Audio Player</h3>
+<audio id="a" controls src="audio.mp3"></audio>
+<p>Time: <span id="at">0</span></p>
+
+<h3>Video Player</h3>
+<video id="v" width="300" controls src="video.mp4"></video>
+<p>Time: <span id="vt">0</span></p>
+</div>
+
+<script>
+a.ontimeupdate=()=>at.textContent=Math.floor(a.currentTime)
+v.ontimeupdate=()=>vt.textContent=Math.floor(v.currentTime)
+</script>
+
+</body>
+</html>

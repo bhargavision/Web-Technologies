@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 Canvas</title>
+<style>
+body{
+margin:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial
+}
+canvas{border:1px solid black}
+</style>
+</head>
+<body>
+
+<canvas id="c" width="500" height="300"></canvas>
+
+<script>
+let x=c.getContext("2d")
+
+x.fillStyle="blue"
+x.fillRect(20,20,120,70)
+
+x.beginPath()
+x.fillStyle="red"
+x.arc(250,120,40,0,Math.PI*2)
+x.fill()
+
+x.beginPath()
+x.strokeStyle="green"
+x.lineWidth=3
+x.moveTo(20,260)
+x.lineTo(350,260)
+x.stroke()
+
+x.fillStyle="purple"
+x.font="24px Arial"
+x.fillText("HTML5 Canvas",150,200)
+</script>
+
+</body>
+</html>
+
