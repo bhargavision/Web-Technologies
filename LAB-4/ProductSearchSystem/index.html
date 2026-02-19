@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Product Search</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+      }
+
+      .container {
+        width: 400px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      .product {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+
+      .product:last-child {
+        border-bottom: none;
+      }
+
+      .loading {
+        color: blue;
+      }
+
+      .error {
+        color: red;
+      }
+
+      .no-results {
+        color: gray;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Live Product Search</h2>
+      <input type="text" id="searchInput" placeholder="Search products..." />
+      <div id="results"></div>
+    </div>
+
+    <script>
+      const searchInput = document.getElementById("searchInput");
+      const resultsDiv = document.getElementById("results");
+
+      let debounceTimeout;
+
+      searchInput.addEventListener("input", function () {
+        const query = searchInput.value.trim().toLowerCase();
+
+        clearTimeout(debounceTimeout);
+
+        debounceTimeout = setTimeout(() => {
+          if (query.length === 0) {
+            resultsDiv.innerHTML = "";
+            return;
+          }
+
+          fetchProducts(query);
+        }, 500);
+      });
+
+      function fetchProducts(query) {
+        resultsDiv.innerHTML = "<p class='loading'>Loading...</p>";
+
+        fetch("products.json")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const products = data.products;
+
+            const filtered = products.filter((product) =>
+              product.name.toLowerCase().includes(query),
+            );
+
+            displayResults(filtered);
+          })
+          .catch((error) => {
+            resultsDiv.innerHTML =
+              "<p class='error'>Failed to fetch products. Please try again.</p>";
+          });
+      }
+
+      function displayResults(products) {
+        resultsDiv.innerHTML = "";
+
+        if (products.length === 0) {
+          resultsDiv.innerHTML = "<p class='no-results'>No results found</p>";
+          return;
+        }
+
+        products.forEach((product) => {
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product");
+
+          productDiv.innerHTML = `
+                <strong>${product.name}</strong><br>
+                Price: $${product.price}<br>
+                Category: ${product.category}
+            `;
+
+          resultsDiv.appendChild(productDiv);
+        });
+      }
+    </script>
+  </body>
+</html>

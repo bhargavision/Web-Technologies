@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Real-Time Username Checker</title>
+
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 320px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .available {
+        color: green;
+        font-size: 14px;
+      }
+
+      .taken {
+        color: red;
+        font-size: 14px;
+      }
+
+      .loading {
+        color: blue;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Registration Form</h2>
+
+      <form id="registerForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required />
+        <div id="feedback"></div>
+        <br />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+    <script>
+      const usernameInput = document.getElementById("username");
+      const feedback = document.getElementById("feedback");
+      const form = document.getElementById("registerForm");
+
+      let isUsernameAvailable = false;
+      let existingUsers = [];
+
+      // Load users from JSON file
+      fetch("usernames.json")
+        .then((response) => response.json())
+        .then((data) => {
+          existingUsers = data.usernames.map((user) => user.toLowerCase());
+        });
+
+      usernameInput.addEventListener("input", function () {
+        const username = usernameInput.value.trim().toLowerCase();
+
+        if (username.length === 0) {
+          feedback.textContent = "";
+          return;
+        }
+
+        feedback.textContent = "Checking...";
+        feedback.className = "loading";
+
+        setTimeout(() => {
+          if (existingUsers.includes(username)) {
+            feedback.textContent = "Username already taken";
+            feedback.className = "taken";
+            isUsernameAvailable = false;
+          } else {
+            feedback.textContent = "Username available";
+            feedback.className = "available";
+            isUsernameAvailable = true;
+          }
+        }, 600);
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (!isUsernameAvailable) {
+          alert("Please choose an available username.");
+          return;
+        }
+
+        const newUsername = usernameInput.value.trim().toLowerCase();
+        existingUsers.push(newUsername);
+
+        alert("Registration successful!");
+
+        usernameInput.value = "";
+        feedback.textContent = "";
+        isUsernameAvailable = false;
+      });
+    </script>
+  </body>
+</html>
