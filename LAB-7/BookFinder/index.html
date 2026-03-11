@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>Book Finder</h2>
+
+    <input id="search" placeholder="Search title" />
+    <button onclick="searchBook()">Search</button>
+
+    <br /><br />
+
+    <button onclick="filterProgramming()">Programming Books</button>
+    <button onclick="sortPrice()">Sort by Price</button>
+    <button onclick="sortRating()">Sort by Rating</button>
+    <button onclick="topBooks()">Top Rated</button>
+
+    <br /><br />
+
+    <button onclick="page1()">Page 1</button>
+    <button onclick="page2()">Page 2</button>
+
+    <div id="books"></div>
+
+    <script>
+      function showBooks(data) {
+        let html = "";
+
+        data.forEach((b) => {
+          html += `
+<div>
+<h3>${b.title}</h3>
+<p>${b.author}</p>
+<p>${b.category}</p>
+<p>Price: ${b.price}</p>
+<p>Rating: ${b.rating}</p>
+</div>
+<hr>
+`;
+        });
+
+        document.getElementById("books").innerHTML = html;
+      }
+
+      function searchBook() {
+        let title = document.getElementById("search").value;
+
+        fetch("http://localhost:3000/books/search/" + encodeURIComponent(title))
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+
+      function filterProgramming() {
+        fetch("http://localhost:3000/books/category/Programming")
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+
+      function sortPrice() {
+        fetch("http://localhost:3000/books/sort/price")
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+
+      function sortRating() {
+        fetch("http://localhost:3000/books/sort/rating")
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+
+      function topBooks() {
+        fetch("http://localhost:3000/books/top")
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+
+      function page1() {
+        fetch("http://localhost:3000/books/page/1")
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+
+      function page2() {
+        fetch("http://localhost:3000/books/page/2")
+          .then((res) => res.json())
+          .then(showBooks);
+      }
+    </script>
+  </body>
+</html>
