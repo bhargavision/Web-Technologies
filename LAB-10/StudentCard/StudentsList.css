@@ -1,0 +1,50 @@
+.students-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  padding: 40px 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.students-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 50px;
+}
+
+.students-header h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0 0 10px 0;
+  letter-spacing: 1px;
+}
+
+.students-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .students-header h1 {
+    font-size: 2rem;
+  }
+
+  .students-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .students-container {
+    padding: 20px 15px;
+  }
+}
