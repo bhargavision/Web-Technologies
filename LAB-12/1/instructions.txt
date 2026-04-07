@@ -1,0 +1,24 @@
+1. Install Express
+npm init -y
+npm install express
+
+2. run
+node server.js
+
+3. Test Endpoints
+GET all users
+GET http://localhost:3000/users
+
+GET user by ID
+GET http://localhost:3000/users/1
+
+POST (create)
+POST http://localhost:3000/users
+Body: { "name": "Charlie" }
+
+PUT (update)
+PUT http://localhost:3000/users/1
+Body: { "name": "Updated Name" }
+
+DELETE
+DELETE http://localhost:3000/users/1

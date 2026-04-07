@@ -1,0 +1,21 @@
+1. Install Dependencies
+npm init -y
+npm install express mongoose
+
+2. Run
+node server.js
+
+3. Test Endpoints
+Create
+POST http://localhost:3000/users
+Body: { "name": "Alice", "age": 22 }
+
+Read
+GET http://localhost:3000/users
+
+Update
+PUT http://localhost:3000/users/{id}
+Body: { "name": "Updated", "age": 25 }
+
+Delete
+DELETE http://localhost:3000/users/{id}
